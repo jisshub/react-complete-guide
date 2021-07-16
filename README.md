@@ -14,7 +14,7 @@
 
 # What is React
 
-![alt](../images/screen-1.jpg)
+![](./images/screen-1.jpg 'image')
 
 - **Single Page Application** means server only needs to send a single html page to the browser for the website to run fully.
 - Then React takes over and manages the whole website in the browser including user events, website data,
@@ -23,7 +23,7 @@
 - For example when user clicks on Contact nav, **React** look in to its route and then inject contact form on to the page.
 - This in contract with traditional website where every links user clicks sends a request to the server and loads an html page. Check below image
 
-![Traditional Setup](../images/screen-2.jpg)
+![Traditional Setup](./images/screen-2.jpg)
 
 # Extensions to Install
 
@@ -32,7 +32,7 @@
 
 To use emmet inside react components, update settings like below,
 
-![](../images/screen-3.jpg)
+![](./images/screen-3.jpg)
 
 ---
 
@@ -230,3 +230,232 @@ function App() {
   );
 }
 ```
+
+## Adding CSS to the components
+
+> delete _App.css_ file and it's import
+
+**App.css**
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+/* base styles */
+* {
+  margin: 0;
+  font-family: 'Quicksand';
+  color: #333;
+}
+.navbar {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+  border-bottom: 1px solid #f2f2f2;
+}
+.navbar h1 {
+  color: #f1356d;
+}
+.navbar .links {
+  margin-left: auto;
+}
+.navbar a {
+  margin-left: 16px;
+  text-decoration: none;
+  padding: 6px;
+}
+.navbar a:hover {
+  color: #f1356d;
+}
+.content {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+}
+```
+
+### Adding inline styles dynamically
+
+```js
+<a
+  href='/create'
+  style={{
+    color: 'white',
+    backgroundColor: '#f1356d',
+    borderRadius: '8px',
+  }}
+>
+  New Blog
+</a>
+```
+
+## Click Events
+
+Pass a function as a reference to onClick event. Check example below
+
+While clicking on button, function is invoked
+
+```js
+const Home = () => {
+  const handleClick = () => {
+    console.log('hello ninjas');
+  };
+  return (
+    <div className='home'>
+      <h2>HomePage</h2>
+      <button onClick={handleClick}>Click Me</button>
+    </div>
+  );
+};
+
+export default Home;
+```
+
+### Passing arguments to the function
+
+invoke the function with in another function. check bewlow
+
+```js
+
+    function handleClickAgain(name) {
+        console.log(`name: ${name}`);
+    }
+    return (
+        <div className="home">
+            <h2>HomePage</h2>
+            <button onClick={handleClick}>Click Me</button>
+            <button onClick={() => handleClickAgain('jissmon')}>Click Me Again</button>
+        </div>
+     );
+}
+```
+
+### Event Object
+
+Objects that we get access automatically when an event triggers.
+
+When a funciton invoked event object is passed
+
+```js
+const handleClick = (e) => {
+  console.log('hello ninjas', e);
+};
+function handleClickAgain(name, e) {
+  console.log(`name: ${name}`, e.target);
+}
+return (
+  <div className='home'>
+    <h2>HomePage</h2>
+    <button onClick={handleClick}>Click Me</button>
+    <button onClick={(e) => handleClickAgain('jissmon', e)}>
+      Click Me Again
+    </button>
+  </div>
+);
+```
+
+![](./images/screen-5.jpg 'image')
+
+## Using State
+
+Making a value reactive. i.e changing the values according to events aoccures.
+For this purpose we use, _hooks_.
+here the hook is _useState_
+By using this hook we create reactive value.
+
+```js
+const Home = () => {
+  let name = 'jissmon';
+  const handleClick = () => {
+    name = 'thala ajith';
+    console.log(name);
+  };
+  return (
+    <div className='home'>
+      <h2>HomePage</h2>
+      <p>{name}</p>
+      <button onClick={handleClick}>Click Me</button>
+    </div>
+  );
+};
+```
+
+here the value of name wont change to even v click the button.
+
+### Using useState reat hook
+
+```js
+import { useState } from 'react';
+const Home = () => {
+  const [state, setstate] = useState('data science');
+  const handleClick = () => {
+    setstate('machine learning');
+    console.log(state);
+  };
+  return (
+    <div className='home'>
+      <h2>HomePage</h2>
+      <p>{state}</p>
+      <button onClick={handleClick}>Click Me</button>
+    </div>
+  );
+};
+
+export default Home;
+```
+
+**useState()** takes the initial state. store it using array destructuring.
+where variable `state` takes the initial value while `setstate`
+used to update the initial state later in the code.
+which is updated while invking **handleClick()** function.
+thus changing value in template. Sceenshot below
+
+Note: `state` is where v store initial state, `setstate` is used to update the `state`.
+
+![](./images/screen-6.jpg)
+
+## Intro to React Dev Tools
+
+https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en
+
+## Outputting List
+
+Dynamically show list in the template by maping thru each object in the same. Use _map_ method. map filters thru each element in the array and make chnages in the same.
+
+```js
+const Home = () => {
+    const [blogs, setBlogs] = useState([
+        {title: 'My new website', body: 'lorem ipsum..', author: 'jiss', id: 1},
+        {title: 'welcome party', body: 'lorem ipsum..', author: 'rehman', id: 2},
+        {title: 'react dev tools', body: 'lorem ipsum..', author: 'ajith', id: 3}
+    ])
+    return (
+        <div className="home">
+            {blogs.map((blog) => (
+                <div className="blog-preview" key={}>
+
+                </div>
+            ))}
+        </div>
+     );
+
+```
+
+Map called on blogs where v get access to each values in the same. then using jsx template to display each one in the list.
+when v o/p a list in jsx template. Root template must hav a _key_ property to keep track of each item when DOM outputs it.
+So if data changes at any point of time, react will keep track of it. keys are unique for each item.
+
+```js
+<div className='home'>
+  {blogs.map((blog) => (
+    <div className='blog-preview' key={blog.id}>
+      <h2>{blog.title}</h2>
+      <p>Written by {blog.body}</p>
+    </div>
+  ))}
+</div>
+```
+
+`blog.id` refers to **key** property here. which is unique for each. it can be any unique property not just id.
+
