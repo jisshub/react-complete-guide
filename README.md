@@ -12,6 +12,18 @@
 
 [Multiple Components](#Multiple-Components)
 
+[Adding inline styles dynamically](#Adding-inline-styles-dynamically)
+
+[Click Events](#Click-Events)
+
+[Using State](#Using-State)
+
+[Using useState React hook](#Using-useState-React-hook)
+
+[Intro to React Dev Tools](#Intro-to-React-Dev-Tools)
+
+[Outputting List](#Outputting-List)
+
 # What is React
 
 ![](./images/screen-1.jpg 'image')
@@ -152,7 +164,7 @@ function App() {
 
 # Multiple Components
 
-![](../images/screen-4.jpg)
+![](./images/screen-4.jpg)
 
 Root component is App.js, other components are nested inside the App component
 
@@ -231,7 +243,7 @@ function App() {
 }
 ```
 
-## Adding CSS to the components
+# Adding CSS to the components
 
 > delete _App.css_ file and it's import
 
@@ -275,7 +287,7 @@ function App() {
 }
 ```
 
-### Adding inline styles dynamically
+# Adding inline styles dynamically
 
 ```js
 <a
@@ -290,7 +302,7 @@ function App() {
 </a>
 ```
 
-## Click Events
+# Click Events
 
 Pass a function as a reference to onClick event. Check example below
 
@@ -357,7 +369,7 @@ return (
 
 ![](./images/screen-5.jpg 'image')
 
-## Using State
+# Using State
 
 Making a value reactive. i.e changing the values according to events aoccures.
 For this purpose we use, _hooks_.
@@ -383,7 +395,7 @@ const Home = () => {
 
 here the value of name wont change to even v click the button.
 
-### Using useState reat hook
+# Using useState React hook
 
 ```js
 import { useState } from 'react';
@@ -458,4 +470,3 @@ So if data changes at any point of time, react will keep track of it. keys are u
 ```
 
 `blog.id` refers to **key** property here. which is unique for each. it can be any unique property not just id.
-
