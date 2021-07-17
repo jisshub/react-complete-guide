@@ -24,6 +24,8 @@
 
 [Outputting List](#Outputting-List)
 
+[Props](#Props)
+
 # What is React
 
 ![](./images/screen-1.jpg 'image')
@@ -470,3 +472,93 @@ So if data changes at any point of time, react will keep track of it. keys are u
 ```
 
 `blog.id` refers to **key** property here. which is unique for each. it can be any unique property not just id.
+
+# Props
+
+Not repeating the same logic in every component, we make it reusable
+for the component using **props** feature
+In case of blogs, we create an external component and specify logic of cycling
+through each blog there. Later v reuse it in multiple component.
+
+**BlogList.js**
+
+```js
+const blogList = () => {
+  return (
+    <div className='home'>
+      {blogs.map((blog) => (
+        <div className='blog-preview' key={blog.id}>
+          <h2>{blog.title}</h2>
+          <p>Written by {blog.body}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+```
+
+**Home.js**
+
+```js
+const Home = () => {
+  const [blogs, setBlogs] = useState([
+    { title: 'My new website', body: 'lorem ipsum..', author: 'jiss', id: 1 },
+    { title: 'welcome party', body: 'lorem ipsum..', author: 'rehman', id: 2 },
+    { title: 'react dev tools', body: 'lorem ipsum..', author: 'ajith', id: 3 },
+  ]);
+  return <blogList />;
+};
+```
+
+- Here shows error _blogs not defined_ since same not defined in Home component.
+- To do that v use _Props_. Using the same v pass _blogs_ data from **Home** component
+  to **blogList** component given in the return statement.
+- Thus making it reusable.
+
+Using Props Check Below:
+
+```js
+return <BlogList blogs={blogs} />;
+```
+
+- Pass blogs data to a variable. clubing them makes a prop.
+- Means `blogs={blogs}` is a **Prop**.
+- BlogList component get this prop as argument.
+
+**BlogList.js**
+
+```js
+const BlogList = (prop) => {
+  const blogs = prop.blogs;
+  console.log(prop, blogs);
+  return (
+    <div className='home'>
+      {blogs.map((blog) => (
+        <div className='blog-preview' key={blog.id}>
+          <h2>{blog.title}</h2>
+          <p>Written by {blog.body}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+```
+
+- We access the prop property which has an object blogs which contains an array
+  of blogs.
+- Then iterate thru each blog.
+
+![](./images/screen-9.jpg)
+
+## Destructuring prop in each manner
+
+Here v destructure that prop object when getting the same as an argument itself.
+
+```js
+// from this
+const BlogList = (prop) => {};
+// to this
+const BlogList = ({ blogs }) => {};
+```
+
+# Reusing Components
