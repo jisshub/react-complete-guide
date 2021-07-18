@@ -26,6 +26,14 @@
 
 [Props](#Props)
 
+[Reusing Components](#Reusing-Components)
+
+[Functions As Props](#Functions-As-Props)
+
+[useEffect Hook Basics](#useEffect-Hook-Basics)
+
+[useEffect Hook Dependencies](#useEffect-Hook-Dependencies)
+
 # What is React
 
 ![](./images/screen-1.jpg 'image')
@@ -510,7 +518,7 @@ const Home = () => {
 };
 ```
 
-- Here shows error _blogs not defined_ since same not defined in Home component.
+- Here shows error _blogs not defined_ since the same not defined in Home component.
 - To do that v use _Props_. Using the same v pass _blogs_ data from **Home** component
   to **blogList** component given in the return statement.
 - Thus making it reusable.
@@ -562,3 +570,127 @@ const BlogList = ({ blogs }) => {};
 ```
 
 # Reusing Components
+
+```js
+return (
+  <div className='home'>
+    <BlogList blog={blogs} title='All Blogs' />
+    <BlogList
+      blogs={blogs.filter((blog) => blog.author === 'Ajith')}
+      title="Ajith's Blog"
+    />
+  </div>
+);
+```
+
+- First case of BlogList We get all the blogs.
+- Second case, we filtered out blogs of author `Ajith`.
+- Thus reusing the BlogList component again.
+
+---
+
+# Functions As Props
+
+Suppose we want to delete a blog,
+
+**BlogList.js**
+
+```js
+<div className='blog-preview' key={blog.id}>
+  <h2>{blog.title}</h2>
+  <p>Written by {blog.body}</p>
+  <button onClick={handleDelete(blog.id)}>Delete</button>
+</div>
+```
+
+- Call _handleDelete_ gets blog id as parameter.
+- Create this in Home component since blog state is defined in Home. Check Below
+
+```js
+const [blogs, setBlogs] = useState([
+  { title: 'My new website', body: 'lorem ipsum..', author: 'jiss', id: 1 },
+  { title: 'welcome party', body: 'lorem ipsum..', author: 'rehman', id: 2 },
+  { title: 'react dev tools', body: 'lorem ipsum..', author: 'ajith', id: 3 },
+]);
+```
+
+- Use _setBlogs_ to update/delete the blogs.
+- Thus We create the function here and interact with data directly.
+- Later pass this funtion to BlogList component as _Prop_.
+
+**Home.js**
+
+```js
+const handleDelete = (blogId) => {
+  // store blogs with unmatched id's to newBlogs variable
+  const newBlogs = blogs.filter((blog) => blog.id !== blogId);
+  // call setBlogs - Pass newBlogs
+  setBlogs(newBlogs);
+};
+return <BlogList blogs={blogs} handleDelete={handleDelete} />;
+```
+
+- _BlogList_ component accept this prop as an argument.
+
+**BlogList.js**
+
+```js
+const BlogList = ({ blogs, handleDelete }) => {};
+```
+
+This how we pass function as prop to another function.
+
+---
+
+# useEffect Hook Basics
+
+- ueEffect hook runs every time when component renders.
+- Also runs when state changes.
+- It is useful for fetching the data.
+
+```js
+import { useEffect } from 'react';
+useEffect(() => {
+  console.log('use effect executed');
+});
+```
+
+# useEffect Hook Dependencies
+
+- when we want to run _useEffect_ function only after certain rendering instead of every renders.
+
+- We use actual dependencies with useEffect.
+
+- For example: If want to run useEffect only when a certain state is changed.
+
+```js
+// define a state
+const [name, setName] = useState('mario');
+
+// add a dependency array for state name in useEffect function.
+useEffect(() => {
+  console.log('use effect executed');
+  console.log(name);
+}, [name]);
+
+// useEffect fires only whenever name changes
+return (
+  <div className='content'>
+    <BlogList blogs={blogs} handleDelete={handleDelete} />
+    <button
+      onClick={() => {
+        setName('shawn');
+      }}
+    >
+      Change Name
+    </button>
+  </div>
+);
+// Once changed & then again button is clicked, useEffect doesn't runs since state is already changed in first click event.
+```
+
+![](./images/screen-8.jpg)
+
+---
+
+# Using JSON Server
