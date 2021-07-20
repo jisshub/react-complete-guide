@@ -34,6 +34,10 @@
 
 [useEffect Hook Dependencies](#useEffect-Hook-Dependencies)
 
+[Using JSON Server](#Using-JSON-Server)
+
+[Fetching Data with useEffect](#Fetching-Data-with-useEffect)
+
 # What is React
 
 ![](./images/screen-1.jpg 'image')
