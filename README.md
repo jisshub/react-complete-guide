@@ -38,6 +38,8 @@
 
 [Fetching Data with useEffect](#Fetching-Data-with-useEffect)
 
+[Conditional Loading Message](#Conditional-Loading-Message)
+
 # What is React
 
 ![](./images/screen-1.jpg 'image')
@@ -791,3 +793,35 @@ Here template renders only if both conditions were true.
 2. Update the state with data.
 3. Updated state has a value now, then output the component and pass that value as props.
 4. Later iterate on that value and renders it in the DOM.
+
+# Conditional Loading Message
+
+Shows a loading message in browser in mean time while content loads.
+
+1. Define a state and assign true to the same.
+
+```js
+const [isPending, setIsPending] = useState(true);
+```
+
+2. Show it in the template using `conditional formatting`
+
+```jsx
+{
+  isPending && <div>Loading...</div>;
+}
+```
+
+3. Once content loads, remove the same.
+   So, Call the `setIsPending()` passing a `false` as argument.
+
+```js
+ .then(data => {
+                setBlogs(data);
+                setIsPending(false);
+            })
+```
+
+Thus how we conditionally o/p a message.
+
+---
