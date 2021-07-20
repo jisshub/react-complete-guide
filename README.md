@@ -694,3 +694,96 @@ return (
 ---
 
 # Using JSON Server
+
+use json-server to fetch data
+
+1. create a json file to store data.
+2. Add **json-server** using npx to watch json file and wrap it with some
+   endpoints/api's.
+   ```bash
+    npx json-server --watch data/db.json --port 8000
+   ```
+   **Note**: port number should be diff from our localhost port number
+3. Once **json-server** installed & watched json file to wrap some api's.
+4. some of those endpoints listed below
+   ![](./images/screen-10.jpg 'image')
+
+---
+
+# Fetching Data with useEffect
+
+> Fetch the data when component first renders
+
+1. Set initial value of blogs to null.
+
+```js
+const [blogs, setBlogs] = useState(null);
+```
+
+2. `fetch` method is called inside `useEffect` which gives a Promise object.
+
+3. Call `then` on `fetch` to return a response object.
+
+4. Call json() on response object to get the data.
+
+5. On returning the data we get a `Promise` object
+
+6. Again apply `then` and pass a parameter to it to get the data.
+
+```js
+useEffect(() => {
+  fetch('http://localhost:8000/blogs')
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      console.log(data);
+    });
+}, []);
+```
+
+7. Update the blog state with new blogs data.
+   pass data to `setBlogs` function
+
+```js
+useEffect(() => {
+  fetch('http://localhost:8000/blogs')
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      setBlogs(data);
+    });
+}, []);
+```
+
+8. Run the server which result in error like below
+
+```bash
+TypeError: Cannot read property 'map' of null
+```
+
+Because `blogs` get null value initially
+
+```js
+const [blogs, setBlogs] = useState(null);
+```
+
+To override that, use **conditional formatting on JSX template** like below
+
+```jsx
+return (
+  <div className='content'>
+    {blogs && <BlogList blogs={blogs} handleDelete={handleDelete} />}
+  </div>
+);
+```
+
+Here template renders only if both conditions were true.
+
+**Summary**
+
+1. Fetch the data
+2. Update the state with data.
+3. Updated state has a value now, then output the component and pass that value as props.
+4. Later iterate on that value and renders it in the DOM.
