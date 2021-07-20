@@ -882,4 +882,6 @@ fetch('http://localhost:8000/blogssss')
   });
 ```
 
+![](./images/screen-12.jpg 'image')
+
 Time - 5: 20
