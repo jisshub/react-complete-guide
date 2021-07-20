@@ -4,14 +4,21 @@ const Home = () => {
     const [blogs, setBlogs] = useState(null);
     const [isPending, setIsPending] = useState(true);
     useEffect(() => {
-        fetch('http://localhost:8000/blogs')
+        fetch('http://localhost:8000/blogssss')
             .then(res => {
+                console.log(res);
+                if (!res.ok){
+                    throw Error(`Couldn't fetch data`);
+                }
                 return res.json()
             })
             .then(data => {
                 setBlogs(data);
                 setIsPending(false);
             })
+            .catch((err) => {{
+                console.log(err.message);
+            }})
     }, []);
 
     return ( 

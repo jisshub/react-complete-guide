@@ -40,6 +40,8 @@
 
 [Conditional Loading Message](#Conditional-Loading-Message)
 
+[Handling Fetch Errors](#Handling-Fetch-Errors)
+
 # What is React
 
 ![](./images/screen-1.jpg 'image')
@@ -825,3 +827,59 @@ const [isPending, setIsPending] = useState(true);
 Thus how we conditionally o/p a message.
 
 ---
+
+# Handling Fetch Errors
+
+Letting users know an error happened while fetching data.
+
+> **Network Connection Error**
+
+To catch network errors, use catch method which logs the error message.
+
+```js
+fetch('http://localhost:8000/blogs')
+  .then((res) => {
+    return res.json();
+  })
+  .then((data) => {
+    setBlogs(data);
+    setIsPending(false);
+  })
+  .catch((err) => {
+    {
+      console.log(err.message);
+    }
+  });
+```
+
+![](./images/screen-11.jpg 'image')
+
+> **What if api from which user tried to fetch data doesn't exit and server returns a response object that user not expected?**
+
+- How to catch such errors?
+
+  1. use _res.ok_ property to check we got correct response back, if yes, returns true else returns false.
+  2. if false is the value, throw an error with a message.
+  3. `catch` block catches that error and logs the message.
+
+```js
+fetch('http://localhost:8000/blogssss')
+  .then((res) => {
+    console.log(res);
+    if (!res.ok) {
+      throw Error(`Couldn't fetch data`);
+    }
+    return res.json();
+  })
+  .then((data) => {
+    setBlogs(data);
+    setIsPending(false);
+  })
+  .catch((err) => {
+    {
+      console.log(err.message);
+    }
+  });
+```
+
+Time - 5: 20
