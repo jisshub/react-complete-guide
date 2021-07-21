@@ -42,6 +42,8 @@
 
 [Handling Fetch Errors](#Handling-Fetch-Errors)
 
+[Create Custom Hook](#Create-Custom-Hook)
+
 # What is React
 
 ![](./images/screen-1.jpg 'image')
@@ -854,7 +856,7 @@ fetch('http://localhost:8000/blogs')
 
 ![](./images/screen-11.jpg 'image')
 
-> **What if api from which user tried to fetch data doesn't exit and server returns a response object that user not expected?**
+> **What if api from which user tried to fetch data doesn't exit and server returns a response object user not expected?**
 
 - How to catch such errors?
 
@@ -884,4 +886,119 @@ fetch('http://localhost:8000/blogssss')
 
 ![](./images/screen-12.jpg 'image')
 
-Time - 5: 20
+---
+
+# Create Custom Hook
+
+Aim: To reuse the hooks in multiple places.
+
+1. Create new file and define a function which will be the _custom hook_.
+   Note: Custom Hooks starts with name `use`, else not works.
+
+2. Cut & paste `useEffect` and all `states` from Home component to new custom hook.
+
+Check Below - new Custom Hook
+
+**useFetch.js**
+
+```js
+import { useState, useEffect } from 'react';
+const useFetch = () => {
+  const [data, setData] = useState(null);
+  const [isPending, setIsPending] = useState(true);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    fetch('http://localhost:8000/blogs')
+      .then((res) => {
+        console.log(res);
+        if (!res.ok) {
+          throw Error(`Couldn't fetch data`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setData(data);
+        setIsPending(false);
+        setError(null);
+      })
+      .catch((err) => {
+        {
+          setIsPending(false);
+          setError(err.message);
+        }
+      });
+  }, []);
+};
+
+export default useFetch;
+```
+
+3. Return the states as object of arrays.
+
+```js
+    }, []);
+    return {data, isPending, error};
+}
+```
+
+4. Instead of hardcoding url to **fetch()**, we specify it with in both `hook` and `fetch` as parameter.
+
+5. Place it as an array dependency to `useEffect`. So when `url` changes it re-renders the `useEffct` to get the data with respect to endpoints.
+
+```js
+const useFetch = (url) => {
+  const [data, setData] = useState(null);
+  const [isPending, setIsPending] = useState(true);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    fetch(url)
+      .then((res) => {
+        console.log(res);
+        if (!res.ok) {
+          throw Error(`Couldn't fetch data`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setData(data);
+        setIsPending(false);
+        setError(null);
+      })
+      .catch((err) => {
+        {
+          setIsPending(false);
+          setError(err.message);
+        }
+      });
+  }, [url]);
+  return { data, isPending, error };
+};
+```
+
+6. Destructure the returned state using `object destructuring` and import `useFetch` of custom hook to `Home` component.
+
+**Home.js**
+
+```js
+import useFetch from './useFetch';
+const Home = () => {
+  const {
+    data: blogs,
+    isPending,
+    error,
+  } = useFetch('http://localhost:8000/blogs');
+  return (
+    <div className='content'>
+      {error && <div>{error}</div>}
+      {isPending && <div>Loading...</div>}
+      {blogs && <BlogList blogs={blogs} />}
+    </div>
+  );
+};
+```
+
+Note: `{data: blogs}` means we call the `data` we get as `blogs`. That's it.
+
+Thus we can reuse this hook in various components.
+
+---
