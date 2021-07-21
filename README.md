@@ -44,6 +44,8 @@
 
 [Create Custom Hook](#Create-Custom-Hook)
 
+[React Router](#React-Router)
+
 # What is React
 
 ![](./images/screen-1.jpg 'image')
@@ -1002,3 +1004,63 @@ Note: `{data: blogs}` means we call the `data` we get as `blogs`. That's it.
 Thus we can reuse this hook in various components.
 
 ---
+
+# React Router
+
+## Multiple pages in application
+
+In react websites,
+
+- client makes a request
+- server sends response as index.html file along with compiled js files for our react app
+- From this point onwards react takes full control of the application.
+- Initially index page is empty, then react injects the contents dynamically using the components created.
+- Clicking on a link from that page notifies the react router and intercepts the app from sending request to the server.
+- Instead react router looks at the reqeust and inject the respective content on the sreen.
+- Example, On clicking `About` page will inject `About` component to the page.
+- This is how react router works. As a result app makes less req to server thereby making it faster.
+
+![](./images/screen-13.jpg 'image')
+
+## Setting Up React Router
+
+1. Install react-router and react-router-dom.
+
+```bash
+npm i react-router
+npm i react-router-dom
+```
+
+2. First import packages from react-router-dom in App component
+
+3. Surround the app using `Router` component.
+
+4. All routes goes inside `Switch` component.
+
+5. Each routes are specified using `Route` Component where v gives path of the route.
+
+**App.js**
+
+```js
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+function App() {
+  return (
+    <Router>
+      <div className='App'>
+        <Navbar />
+        <div className='content'>
+          <Switch>
+            <Route path='/'>
+              <Home />
+            </Route>
+          </Switch>
+        </div>
+      </div>
+    </Router>
+  );
+}
+```
+
+---
+
+# Exact Match Routes
