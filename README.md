@@ -46,6 +46,10 @@
 
 [React Router](#React-Router)
 
+[Exact Match Routes](#Exact-Match-Routes)
+
+[Router Links](#Router-Links)
+
 # What is React
 
 ![](./images/screen-1.jpg 'image')
@@ -1064,3 +1068,59 @@ function App() {
 ---
 
 # Exact Match Routes
+
+Add a new router.
+
+```jsx
+<Route path='/create'>
+  <Create />
+</Route>
+```
+
+Navigate to http://localhost:3000/create
+
+It shows contents of the Home component and not the Create component, since route `/create` matches with route `/` which is strange. So to resolve this,
+we use `exact` property with `Route` for Home component. Thus Home component is shown only when exact match is there.
+
+```jsx
+<Route exact path='/'>
+  <Home />
+</Route>
+```
+
+**Note:** React router searches thru routes from top to bottom. Then if a matching route found, inject that component to the page.
+
+---
+
+# Router Links
+
+At present, react sends request to server while clicking on nav links.
+To intercept this we use **router-links**.
+
+1. First import `Link` from `react-router-dom` package.
+2. Replace `anchor` tags with `Link` tag, `href` attribute with `to`.
+
+**Navbar.js**
+
+```jsx
+<div className='links'>
+  <Link to='/'>Home</Link>
+  <Link
+    to='/create'
+    style={{
+      color: 'white',
+      backgroundColor: '#f1356d',
+      borderRadius: '8px',
+    }}
+  >
+    New Blog
+  </Link>
+</div>
+```
+
+- Links tags will prevent react sending req -> server.
+- Instead it will look to the path where the req going to.
+- Then it matches that path against Routes provided.
+- Thus by not sending request everytime we navigate thru pages.
+
+# useEffect Cleanup
