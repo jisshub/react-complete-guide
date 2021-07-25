@@ -56,6 +56,8 @@
 
 [Web Forms](#Web-Forms)
 
+[Submit Forms](#Submit-Forms)
+
 # What is React
 
 ![](./images/screen-1.jpg 'image')
@@ -1305,3 +1307,40 @@ const [author, setAuthor] = useState('mario')
 ```
 
 # Submit Forms
+
+- When submit a form, submit event fires.
+
+- submit event is `onSubmit()`.
+
+- we define by setting a function as a reference to this event.
+
+- Prevent default action of page refresh while form submits.
+
+- Next save the submitted data as an object.
+
+- log the object.
+
+**Create.js**
+
+```jsx
+const [title, setTitle] = useState('');
+const [body, setBody] = useState('');
+const [author, setAuthor] = useState('mario')
+const handleSubmit = (e) => {
+    e.preventDefault();
+    const blog = {title, body, author}
+}
+return (
+    <div className="create">
+        <h1>Add New Blog</h1>
+        <form onSubmit={handleSubmit}>
+        </form>
+        ---
+        -----
+        -----
+)
+```
+
+![](./images/screen-15.jpg 'image')
+
+# Making a POST request
