@@ -54,6 +54,8 @@
 
 [Reusing Custom Hook](#Reusing-Custom-Hook)
 
+[Web Forms](#Web-Forms)
+
 # What is React
 
 ![](./images/screen-1.jpg 'image')
@@ -1229,3 +1231,77 @@ const BlogDetails = () => {
 ```
 
 # Web Forms
+
+## CONTROLLED INPUT
+
+- A way of setting input fields in forms. So we can track their values.
+- For example, if v have a text input field, we can store value of the same in a state.
+- If that state changes, value of input field also changes respectively.
+
+**Demo :**
+
+- Create a form in a component
+
+**Create.js**
+
+```jsx
+return (
+  <div className='create'>
+    <h1>Add New Blog</h1>
+    <form>
+      <label>Blog title:</label>
+      <input type='text' required></input>
+      <label>Blog body:</label>
+      <textarea required></textarea>
+      <label>Blog author: </label>
+      <select>
+        <option value='mario'>mario</option>
+        <option value='yoshi'>yoshi</option>
+      </select>
+      <button>Submit</button>
+    </form>
+  </div>
+);
+```
+
+What we want to do is to keep track the values entered/selected in fields (input, select, textarea...).
+
+1. First we need to define a state to asscociate with the input field.
+
+```js
+const [title, setTitle] = useState('');
+```
+
+2. Then we have to add value property to input which in turn associate with the state defined.
+
+```jsx
+<input type='text' required value='{title}' />
+```
+
+3. To change the value, we use define `onChange` event with an anonymouse function that takes `setTitle`.
+   `setTitle` will update the current value with the value user enter in to input field.
+   To get value use event object.
+
+```jsx
+<input
+  type='text'
+  required
+  value={title}
+  onChange={(e) => setTitle(e.target.value)}
+/>
+```
+
+4. Now we can track what user types in the field.
+
+### Controlled input for Select Field
+
+```jsx
+const [author, setAuthor] = useState('mario')
+
+<select value={author} onChange={(e) => setAuthor(e.target.value)}>
+  <option value='mario'>mario</option>
+  <option value='yoshi'>yoshi</option>
+</select>
+```
+
+# Submit Forms
