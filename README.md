@@ -52,6 +52,8 @@
 
 [Route Parameters](#Route-Parameters)
 
+[Reusing Custom Hook](#Reusing-Custom-Hook)
+
 # What is React
 
 ![](./images/screen-1.jpg 'image')
@@ -1197,3 +1199,33 @@ return (
 # Reusing Custom Hook
 
 - Need to show blog data on clicking each one of them.
+- we use `useFetch` custom hook in BlogDetails component.
+- Destructure the data coming from useFetch hook.
+- return the data in jsx template
+  **BlogDetails.js**
+
+```js
+const BlogDetails = () => {
+  const { id } = useParams();
+  const {
+    data: blog,
+    error,
+    isPending,
+  } = useFetch('http://localhost:8000/blogs/' + id);
+  return (
+    <div className='blog-details'>
+      {isPending && <div>Loading...</div>}
+      {error && <div>{error}</div>}
+      {blog && (
+        <article>
+          <h2>{blog.title}</h2>
+          <p>Written by {blog.author}</p>
+          <div>{blog.body}</div>
+        </article>
+      )}
+    </div>
+  );
+};
+```
+
+# Web Forms
