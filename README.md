@@ -50,6 +50,8 @@
 
 [Router Links](#Router-Links)
 
+[Route Parameters](#Route-Parameters)
+
 # What is React
 
 ![](./images/screen-1.jpg 'image')
