@@ -1123,4 +1123,75 @@ To intercept this we use **router-links**.
 - Then it matches that path against Routes provided.
 - Thus by not sending request everytime we navigate thru pages.
 
-# useEffect Cleanup
+# Route Parameters
+
+- Changable variables in a route are parameters.
+- Used while viewing details page of a specific blog.
+- In react component use this parameters to set up the content.
+
+  ![](./images/screen-14.jpg 'image')
+
+## How to set up component and render using route parameters
+
+- Create a component first.
+- Add jsx template to the same.
+
+```js
+const BlogDetails = () => {
+  return (
+    <div className='blog-details'>
+      <h2>Blog Details</h2>
+    </div>
+  );
+};
+```
+
+- Add a route for the same in App component.
+
+**App.js**
+
+```js
+<Route path='/blogs/:id'>
+  <BlogDetails />
+</Route>
+```
+
+In browser, `http://localhost:3000/blogs/22`
+
+So we can get that component rendered in browser whatever the id we gave here.
+
+- Next we need to fetch id we gave in path to our BlogDetails component.
+- Thus we can fetch the blog corresponding to the id.
+- For this, use react hook called `useParams`.
+- `useParams` will grab the parameter from route.
+- Then destructure the paramters that grabbed.
+- Later use this parameter in templates/other function to fetch the blog.
+
+**BlogDetails.js**
+
+```jsx
+const { id } = useParams();
+return (
+  <div className='blog-details'>
+    <h2>Blog Details - {id}</h2>
+  </div>
+);
+```
+
+- We have to navigate to blog details page while clicking on each blog.
+
+**BlogList.js**
+
+```jsx
+<Link to={`blogs/${blog.id}`}>
+  <h2>{blog.title}</h2>
+  <p>Written by {blog.author}</p>
+</Link>
+```
+
+- We surround them in `Link` tag of react router dom.
+- Set the route and parameter in `to` attribute of the same.
+
+# Reusing Custom Hook
+
+- Need to show blog data on clicking each one of them.
