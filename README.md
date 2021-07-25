@@ -1312,9 +1312,9 @@ const [author, setAuthor] = useState('mario')
 
 - submit event is `onSubmit()`.
 
-- we define by setting a function as a reference to this event.
+- we define the same by setting a function as a reference to this event.
 
-- Prevent default action of page refresh while form submits.
+- Next Prevent default action of page refresh while form submits.
 
 - Next save the submitted data as an object.
 
