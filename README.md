@@ -60,6 +60,12 @@
 
 [Making a POST request](#Making-a-POST-request)
 
+[Programmatic Redirects](#Programmatic-Redirects)
+
+[Deleting Blogs](#Deleting-Blogs)
+
+[Setting 404 Page](#Setting-404-Page)
+
 # What is React
 
 ![](./images/screen-1.jpg 'image')
@@ -1370,3 +1376,90 @@ const handleSubmit = (e) => {
 - Thus adding the data to db.json file.
 
 # Programmatic Redirects
+
+- Go back to prevous page, use `useHistory` hook.
+- Once blog is creatd, go back to previous page.
+- import the hook
+- define it
+- call `go()` method and pass -1.
+
+```js
+import { useHistory } from 'react-router-dom';
+const history = useHistory();
+        .then(() => {
+            console.log(`New Blog Added`);
+            history.go(-1);
+        });
+```
+
+- To redirect to Home page, call `push()` method and pass the route.
+
+```js
+.then(() => {
+    console.log(`New Blog Added`);
+    history.push("/");
+});
+```
+
+# Deleting Blogs
+
+- Delete blog and return to home page.
+- use fetch, method as delete, refer the function
+  in the template.
+
+**BlogDetails.js**
+
+```jsx
+import { useHistory } from "react-router-dom";
+const BlogDetails = () => {
+    const { id } =  useParams();
+    const history = useHistory();
+    const {data: blog, error, isPending} = useFetch('http://localhost:8000/blogs/' + id);
+    const handleDelete = () => {
+        fetch(`http://localhost:8000/blogs/${blog.id}`, {
+            method: 'DELETE'
+        })
+        .then(() => {
+            history.push('/');
+        })
+    }
+
+
+<button onClick={handleDelete}>Delete</button>
+```
+
+# Setting 404 Page
+
+- Go to 404 page when url is wrong / page doesn't exist.
+- Create new component.
+
+**NotFound.js**
+
+```js
+const NotFound = () => {
+  return (
+    <div className='not-found'>
+      <h2>Sorry</h2>
+      <p>That page cannot be found</p>
+      <Link to='/'>Back to Homepage...</Link>
+    </div>
+  );
+};
+
+export default NotFound;
+```
+
+- Next in **App.js** component add the route to this page.
+- Embed NotFound component to the route.
+- Set path to astericks(\*) to match any other routes and not the ones already given.
+- Also add this Route at very bottom else it will match above routes.
+
+**App.js**
+
+```js
+<Route path='*'>
+  <NotFound />
+</Route>
+```
+
+---
