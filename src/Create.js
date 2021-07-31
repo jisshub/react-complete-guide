@@ -5,8 +5,15 @@ const Create = () => {
     const [author, setAuthor] = useState('mario')
     const handleSubmit = (e) => {
         e.preventDefault();
-        const blog = {title, body, author}
-        console.log(blog);
+        const blog = {title, body, author};
+        fetch('http://localhost:8000/blogs', {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(blog)
+        })
+        .then(() => {
+            console.log(`New Blog Added`);
+        });
     }
     return ( 
         <div className="create">

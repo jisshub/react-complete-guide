@@ -58,6 +58,8 @@
 
 [Submit Forms](#Submit-Forms)
 
+[Making a POST request](#Making-a-POST-request)
+
 # What is React
 
 ![](./images/screen-1.jpg 'image')
@@ -1344,3 +1346,27 @@ return (
 ![](./images/screen-15.jpg 'image')
 
 # Making a POST request
+
+- Make a request to json server to add the data to db.json file.
+
+- Create a POST request with in _handleSubmit_ function
+
+```js
+const handleSubmit = (e) => {
+  e.preventDefault();
+  const blog = { title, body, author };
+  fetch('http://localhost:8000/blogs', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(blog),
+  }).then(() => console.log('content added'));
+};
+```
+
+- Here we add method, content type, also convert json data to string format.
+
+- Call then method to get response object.
+
+- Thus adding the data to db.json file.
+
+# Programmatic Redirects
